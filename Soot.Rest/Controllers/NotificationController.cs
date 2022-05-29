@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Soot.Application.Command;
 using Soot.Domain;
+using Soot.Domain.Shared;
 using System.Text.Json.Serialization;
 
 namespace Soot.Rest.Controllers
@@ -28,16 +29,18 @@ namespace Soot.Rest.Controllers
 
         }
         [HttpPost("[action]")]
-        public async Task ForceEmail(SendMailModel model)
+        public async Task<ResultDto> ForceEmail(SendMailModel model)
         {
             email.Model = model;
-            await email.ExecuteAsync();
+            var res = await email.ExecuteAsync();
+            return res;
         }
         [HttpPost("[action]")]
-        public async Task ForceSms(SendSmsModel model, [FromServices] ISendForceSms sms)
+        public async Task<ResultDto> ForceSms(SendSmsModel model, [FromServices] ISendForceSms sms)
         {
             sms.Model = model;
-            await sms.ExecuteAsync();
+            var res = await sms.ExecuteAsync();
+            return res;
         }
     }
 
