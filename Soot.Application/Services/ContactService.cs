@@ -109,7 +109,7 @@ namespace Soot.Application.Services
                 c.ExternalMappings ??= new();
                 c.ExternalMappings.Add(new Contact.ExternalContactMapping
                 {
-                    ExternalId = model.ExternalId,
+                    ExternalId = model?.ExternalId,
                     ExternalSourceName = model.SourceName ?? DEFAULT_SOURCE_NAME
                 });
             }
