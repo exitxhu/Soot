@@ -20,7 +20,7 @@ test:
   script:
     - dotnet restore --packages .nuget/packages
     - dotnet test
-    - rm -rf "$temp" && mkdir $temp && dotnet publish Soot.Application/Soot.Application.csproj -c Release -o "$temp"
+    - rm -rf "$temp" && mkdir $temp && dotnet publish Soot.Rest/Soot.Rest.csproj -c Release -o "$temp"
 
 stage:
   stage: stage
@@ -30,7 +30,7 @@ stage:
     - publish_path=/opt/ansible/affilio/roles/backend/files/soot.tar
     - dotnet restore --packages .nuget/packages
     - dotnet test
-    - rm -rf  "$temp" && mkdir "$temp" && dotnet publish Soot.Application/Soot.Application.csproj -c Release -o "$temp"
+    - rm -rf  "$temp" && mkdir "$temp" && dotnet publish Soot.Rest/Soot.Rest.csproj -c Release -o "$temp"
     - tar cvf soot.tar -C "$temp" .
     - scp -o StrictHostKeyChecking=no *.tar deploy@$stage_server:$publish_path
     - rm -rf "$temp" && rm *.tar 
@@ -47,7 +47,7 @@ production:
     - dotnet restore --packages .nuget/packages
     - dotnet test
     - rm -rf  "$temp" && mkdir "$temp"
-    - dotnet publish Soot.Application/Soot.Application.csproj -c Release -o "$temp"
+    - dotnet publish Soot.Rest/Soot.Rest.csproj -c Release -o "$temp"
     - tar  --exclude='.nuget' -cvf soot.tar -C "$temp" .
     - scp -o StrictHostKeyChecking=no *.tar deploy@$production_server:$publish_path
     - rm -rf "$temp" && rm *.tar 
