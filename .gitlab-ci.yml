@@ -1,0 +1,54 @@
+image: dotnet-sdk-6.0:latest
+
+stages:
+  - test
+  - stage
+  - production
+cache:
+  paths:
+    - .nuget/packages/
+variables:
+  key: "$CI_BUILD_REF_NAME"
+  temp: "/tmp/publish"
+  stage_server: "49.12.230.119"
+  production_server: "167.235.25.88"
+
+test:
+  stage: test
+  only:
+    - merge_requests
+  script:
+    - dotnet restore --packages .nuget/packages
+    - dotnet test
+    - rm -rf "$temp" && mkdir $temp && dotnet publish Soot.Application/Soot.Application.csproj -c Release -o "$temp"
+
+stage:
+  stage: stage
+  only:
+    - master
+  script:
+    - publish_path=/opt/ansible/affilio/roles/backend/files/soot.tar
+    - dotnet restore --packages .nuget/packages
+    - dotnet test
+    - rm -rf  "$temp" && mkdir "$temp" && dotnet publish Soot.Application/Soot.Application.csproj -c Release -o "$temp"
+    - tar cvf soot.tar -C "$temp" .
+    - scp -o StrictHostKeyChecking=no *.tar deploy@$stage_server:$publish_path
+    - rm -rf "$temp" && rm *.tar 
+    - ssh -o StrictHostKeyChecking=no deploy@$stage_server /opt/ansible/affilio/deploy-soot.sh
+
+
+
+production:
+  stage: production
+  only:
+    - /^v.*$/
+  script:
+    - publish_path=/opt/ansible/affilio/roles/backend/files
+    - dotnet restore --packages .nuget/packages
+    - dotnet test
+    - rm -rf  "$temp" && mkdir "$temp"
+    - dotnet publish Soot.Application/Soot.Application.csproj -c Release -o "$temp"
+    - tar  --exclude='.nuget' -cvf soot.tar -C "$temp" .
+    - scp -o StrictHostKeyChecking=no *.tar deploy@$production_server:$publish_path
+    - rm -rf "$temp" && rm *.tar 
+    - ssh -o StrictHostKeyChecking=no deploy@$production_server /opt/ansible/affilio/deploy-soot.sh
