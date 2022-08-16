@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 using Soot.Application.Command;
-using Soot.Application.Email;
 using Soot.Application.Helpers;
-using Soot.Application.Sms;
+using Soot.Application.Module.Email;
+using Soot.Application.Module.Sms;
 using Soot.Db.Ef;
 using Soot.Db.Ef.Helpers;
 using Soot.Db.Ef.RepoImples;
@@ -39,8 +39,9 @@ try
 
     //services.AddSootDbEF(a => a.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
     services.AddSootDbEF(a => a.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+    
     //services.AddSootDbEF(a => a.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-    services.AddSootDbEF(a => a.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+    //services.AddSootDbEF(a => a.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
     services.AddSootApplication();
     services.AddSootSmsKavenegar(Configuration.GetSection("KavenegarConfig"));
 
@@ -49,11 +50,17 @@ try
     builder.Services.AddSwaggerGen();
 
     var app = builder.Build();
+    
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
-        
+
+    }
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<SootContext>();
+        db.Database.Migrate();
     }
     app.UseSwagger();
     app.UseSwaggerUI();

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Soot.Domain.Entities;
 
 namespace Soot.Db.Ef.RepoImples.Queries
 {

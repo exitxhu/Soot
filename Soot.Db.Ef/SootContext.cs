@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Soot.Domain.Entities;
 
 namespace Soot.Db.Ef
 {
@@ -32,6 +33,7 @@ namespace Soot.Db.Ef
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.HasDefaultSchema("Soot");
             mb.ApplyConfigurationsFromAssembly(typeof(SootContext).Assembly);
         }
     }

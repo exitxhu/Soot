@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Soot.Domain
+namespace Soot.Domain.Exceptions
 {
     [Serializable]
     internal class InvalidMobileNumberFormatException : Exception

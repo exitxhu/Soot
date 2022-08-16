@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Soot.Domain.ValueObjects;
 
 namespace Soot.Application.Base
 {

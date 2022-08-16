@@ -4,7 +4,7 @@ using Soot.Application.Command;
 using Soot.Domain;
 using Soot.Domain.Repositories;
 using System.Text.Json.Serialization;
-using static Soot.Domain.Contact;
+using static Soot.Domain.Entities.Contact;
 
 namespace Soot.Rest.Controllers
 {

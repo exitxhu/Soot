@@ -1,6 +1,6 @@
 ﻿using Soot.Domain.Base;
 
-namespace Soot.Domain
+namespace Soot.Domain.Entities
 {
     public class Tag : Root<Tag>
     {

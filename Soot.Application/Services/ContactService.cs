@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Soot.Domain.Contact;
+using Soot.Domain.Entities;
+using Soot.Domain.ValueObjects;
+using static Soot.Domain.Entities.Contact;
 
 namespace Soot.Application.Services
 {

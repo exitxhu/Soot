@@ -1,4 +1,5 @@
 ﻿using Soot.Domain;
+using Soot.Domain.Entities;
 using Soot.Domain.Repositories;
 
 namespace Soot.Db.Ef.RepoImples

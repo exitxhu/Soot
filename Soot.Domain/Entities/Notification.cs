@@ -1,6 +1,6 @@
 ﻿using Soot.Domain.Base;
 
-namespace Soot.Domain
+namespace Soot.Domain.Entities
 {
     public partial class Notification : Root<Notification>
     {

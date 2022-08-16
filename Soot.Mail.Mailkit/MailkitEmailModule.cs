@@ -3,7 +3,6 @@ using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using Soot.Application.Email;
 using Soot.Domain;
 using Soot.Domain.Shared;
 using System;
@@ -11,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Soot.Application.Module.Email;
+using Soot.Domain.Entities;
 
 namespace Soot.Mail.Mailkit
 {

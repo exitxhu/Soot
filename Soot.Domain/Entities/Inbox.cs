@@ -1,11 +1,6 @@
 ﻿using Soot.Domain.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Soot.Domain
+namespace Soot.Domain.Entities
 {
     public partial class Inbox : Root<Inbox>
     {

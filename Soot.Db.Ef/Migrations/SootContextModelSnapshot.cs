@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Soot.Db.Ef;
 
 #nullable disable
@@ -17,129 +17,130 @@ namespace Soot.Db.Ef.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasDefaultSchema("Soot")
+                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Soot.Domain.Contact", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Contact", b =>
                 {
                     b.Property<int>("ContactId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ContactId"));
 
                     b.Property<string>("EmailAddress")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int?>("InboxId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("MobileNumber")
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("WebSocket")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("character varying(500)");
 
                     b.HasKey("ContactId");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Contact+ContactTag", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Contact+ContactTag", b =>
                 {
                     b.Property<int>("ContactTagId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactTagId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ContactTagId"));
 
                     b.Property<int>("ContactId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Tag")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("ContactTagId");
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("ContactTags");
+                    b.ToTable("ContactTags", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Contact+ExternalContactMapping", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Contact+ExternalContactMapping", b =>
                 {
                     b.Property<int>("ExternalContactId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExternalContactId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ExternalContactId"));
 
                     b.Property<int>("ContactId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("ExternalId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ExternalSourceName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("ExternalContactId");
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("ExternalContactMappings");
+                    b.ToTable("ExternalContactMappings", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Inbox", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Inbox", b =>
                 {
                     b.Property<int>("InboxId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InboxId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InboxId"));
 
                     b.Property<int>("ContactId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("InboxId");
 
                     b.HasIndex("ContactId")
                         .IsUnique();
 
-                    b.ToTable("Inbox");
+                    b.ToTable("Inbox", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Inbox+InboxItem", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Inbox+InboxItem", b =>
                 {
                     b.Property<int>("InboxItemId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InboxItemId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InboxItemId"));
 
                     b.Property<int>("InboxId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<long>("NotificationId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("InboxItemId");
 
@@ -147,84 +148,84 @@ namespace Soot.Db.Ef.Migrations
 
                     b.HasIndex("NotificationId");
 
-                    b.ToTable("InboxItems");
+                    b.ToTable("InboxItems", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Inbox+InboxItemActions", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Inbox+InboxItemActions", b =>
                 {
                     b.Property<int>("InboxItemActionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InboxItemActionId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InboxItemActionId"));
 
                     b.Property<DateTime>("ActionDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ActionType")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Details")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("InboxItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("InboxItemActionId");
 
                     b.HasIndex("InboxItemId");
 
-                    b.ToTable("InboxItemActions");
+                    b.ToTable("InboxItemActions", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Notification", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Notification", b =>
                 {
                     b.Property<long>("NotificaionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("NotificaionId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("NotificaionId"));
 
                     b.Property<string>("Body")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int?>("ContactId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("NotificaionId");
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Notification+SendAction", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Notification+SendAction", b =>
                 {
                     b.Property<int>("SendActionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SendActionId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SendActionId"));
 
                     b.Property<bool>("IsDeliveryRequested")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<long>("NotificationId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("ReceiverId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("RetryCount")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("SendDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("SendType")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("SendActionId");
 
@@ -232,60 +233,60 @@ namespace Soot.Db.Ef.Migrations
 
                     b.HasIndex("ReceiverId");
 
-                    b.ToTable("SendActions");
+                    b.ToTable("SendActions", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Notification+SendResult", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Notification+SendResult", b =>
                 {
                     b.Property<int>("SendResultId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SendResultId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SendResultId"));
 
                     b.Property<string>("Details")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsRetry")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Result")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("ResultDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("SendActionId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("SendResultId");
 
                     b.HasIndex("SendActionId");
 
-                    b.ToTable("SendResults");
+                    b.ToTable("SendResults", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Tag", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Tag", b =>
                 {
                     b.Property<int>("TagId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagId"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TagId"));
 
                     b.Property<string>("TagName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("TagId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", "Soot");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Contact+ContactTag", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Contact+ContactTag", b =>
                 {
-                    b.HasOne("Soot.Domain.Contact", "Contact")
+                    b.HasOne("Soot.Domain.Entities.Contact", "Contact")
                         .WithMany("Tags")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -294,9 +295,9 @@ namespace Soot.Db.Ef.Migrations
                     b.Navigation("Contact");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Contact+ExternalContactMapping", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Contact+ExternalContactMapping", b =>
                 {
-                    b.HasOne("Soot.Domain.Contact", "Contact")
+                    b.HasOne("Soot.Domain.Entities.Contact", "Contact")
                         .WithMany("ExternalMappings")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -305,26 +306,26 @@ namespace Soot.Db.Ef.Migrations
                     b.Navigation("Contact");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Inbox", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Inbox", b =>
                 {
-                    b.HasOne("Soot.Domain.Contact", "Contact")
+                    b.HasOne("Soot.Domain.Entities.Contact", "Contact")
                         .WithOne("Inbox")
-                        .HasForeignKey("Soot.Domain.Inbox", "ContactId")
+                        .HasForeignKey("Soot.Domain.Entities.Inbox", "ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Contact");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Inbox+InboxItem", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Inbox+InboxItem", b =>
                 {
-                    b.HasOne("Soot.Domain.Inbox", "Inbox")
+                    b.HasOne("Soot.Domain.Entities.Inbox", "Inbox")
                         .WithMany("Items")
                         .HasForeignKey("InboxId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Soot.Domain.Notification", "Notification")
+                    b.HasOne("Soot.Domain.Entities.Notification", "Notification")
                         .WithMany()
                         .HasForeignKey("NotificationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -335,9 +336,9 @@ namespace Soot.Db.Ef.Migrations
                     b.Navigation("Notification");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Inbox+InboxItemActions", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Inbox+InboxItemActions", b =>
                 {
-                    b.HasOne("Soot.Domain.Inbox+InboxItem", "InboxItem")
+                    b.HasOne("Soot.Domain.Entities.Inbox+InboxItem", "InboxItem")
                         .WithMany("InboxItemActions")
                         .HasForeignKey("InboxItemId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -346,22 +347,22 @@ namespace Soot.Db.Ef.Migrations
                     b.Navigation("InboxItem");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Notification", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Notification", b =>
                 {
-                    b.HasOne("Soot.Domain.Contact", null)
+                    b.HasOne("Soot.Domain.Entities.Contact", null)
                         .WithMany("Notifications")
                         .HasForeignKey("ContactId");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Notification+SendAction", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Notification+SendAction", b =>
                 {
-                    b.HasOne("Soot.Domain.Notification", "Notification")
+                    b.HasOne("Soot.Domain.Entities.Notification", "Notification")
                         .WithMany("SendActions")
                         .HasForeignKey("NotificationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Soot.Domain.Contact", "Receiver")
+                    b.HasOne("Soot.Domain.Entities.Contact", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -372,9 +373,9 @@ namespace Soot.Db.Ef.Migrations
                     b.Navigation("Receiver");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Notification+SendResult", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Notification+SendResult", b =>
                 {
-                    b.HasOne("Soot.Domain.Notification+SendAction", "SendAction")
+                    b.HasOne("Soot.Domain.Entities.Notification+SendAction", "SendAction")
                         .WithMany("SendResults")
                         .HasForeignKey("SendActionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -383,7 +384,7 @@ namespace Soot.Db.Ef.Migrations
                     b.Navigation("SendAction");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Contact", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Contact", b =>
                 {
                     b.Navigation("ExternalMappings");
 
@@ -395,22 +396,22 @@ namespace Soot.Db.Ef.Migrations
                     b.Navigation("Tags");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Inbox", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Inbox", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Inbox+InboxItem", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Inbox+InboxItem", b =>
                 {
                     b.Navigation("InboxItemActions");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Notification", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Notification", b =>
                 {
                     b.Navigation("SendActions");
                 });
 
-            modelBuilder.Entity("Soot.Domain.Notification+SendAction", b =>
+            modelBuilder.Entity("Soot.Domain.Entities.Notification+SendAction", b =>
                 {
                     b.Navigation("SendResults");
                 });

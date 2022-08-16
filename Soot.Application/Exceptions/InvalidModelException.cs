@@ -1,7 +1,7 @@
-﻿using Soot.Application.Base;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Soot.Application.Base;
 
-namespace Soot.Application.Services
+namespace Soot.Application.Exceptions
 {
     [Serializable]
     internal class InvalidModelException : Exception

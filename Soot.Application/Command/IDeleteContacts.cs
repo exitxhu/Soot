@@ -1,11 +1,11 @@
 ﻿using linqPlusPlus;
 using Soot.Application.Base;
-using Soot.Application.Email;
 using Soot.Application.Services;
 using Soot.Domain;
 using Soot.Domain.Repositories;
 using Soot.Domain.Shared;
 using System.Text.Json.Serialization;
+using Soot.Application.Exceptions;
 
 namespace Soot.Application.Command
 {

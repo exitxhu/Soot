@@ -1,5 +1,4 @@
 ﻿using Kavenegar_NetCore_unofficial_;
-using Soot.Application.Sms;
 using Soot.Domain;
 using Soot.Domain.Shared;
 using System;
@@ -7,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Soot.Application.Module.Sms;
+using Soot.Domain.Entities;
 
 namespace Soot.Sms.Kavenegar
 {

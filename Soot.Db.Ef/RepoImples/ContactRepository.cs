@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Soot.Domain;
+using Soot.Domain.Entities;
 using Soot.Domain.Repositories;
+using Soot.Domain.ValueObjects;
 
 namespace Soot.Db.Ef.RepoImples
 {

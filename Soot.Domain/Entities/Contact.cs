@@ -1,8 +1,7 @@
-﻿
-using Soot.Domain.Base;
-using static Soot.Domain.Tag;
+﻿using Soot.Domain.Base;
+using Soot.Domain.ValueObjects;
 
-namespace Soot.Domain
+namespace Soot.Domain.Entities
 {
     public partial class Contact : Root<Contact>
     {

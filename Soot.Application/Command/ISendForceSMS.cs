@@ -1,8 +1,6 @@
 ﻿using linqPlusPlus;
 using Soot.Application.Base;
-using Soot.Application.Email;
 using Soot.Application.Services;
-using Soot.Application.Sms;
 using Soot.Domain;
 using Soot.Domain.Repositories;
 using Soot.Domain.Shared;
@@ -12,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Soot.Application.Module.Sms;
+using Soot.Domain.ValueObjects;
 
 namespace Soot.Application.Command
 {

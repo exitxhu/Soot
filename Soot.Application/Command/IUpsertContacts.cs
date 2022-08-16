@@ -1,12 +1,14 @@
 ﻿using Soot.Application.Base;
-using Soot.Application.Email;
 using Soot.Application.Services;
 using Soot.Domain;
 using Soot.Domain.Repositories;
 using Soot.Domain.Shared;
 using System.Text.Json.Serialization;
 using linqPlusPlus;
-using static Soot.Domain.Contact;
+using Soot.Application.Exceptions;
+using Soot.Domain.Entities;
+using Soot.Domain.ValueObjects;
+using static Soot.Domain.Entities.Contact;
 
 namespace Soot.Application.Command
 {

@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Soot.Domain;
+using Soot.Domain.Entities;
+using Soot.Domain.ValueObjects;
+
 namespace Soot.Db.Ef.Configuration
 {
     public class ContactConfig : IEntityTypeConfiguration<Contact>
