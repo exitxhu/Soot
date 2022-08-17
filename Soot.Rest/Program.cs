@@ -34,7 +34,7 @@ try
     services.AddScoped<IEmailModule, MailkitEmailModule>();
     services.AddScoped<ISmsModule, KavenegarSmsModule>();
     //services.AddSootDbEF(a => a.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-    services.AddSootDbEf(a => a.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+    services.AddSootDbEf(a => a.UseNpgsql(configuration.GetConnectionString("Pg_DataConnection")));
     //services.AddSootDbEF(a => a.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
     //services.AddSootDbEF(a => a.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
     services.AddSootApplication();
