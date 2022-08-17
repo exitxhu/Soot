@@ -12,6 +12,7 @@ using Soot.Sms.Kavenegar;
 
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+LogManager.Configuration.Variables["ApplicationName"] = "Soot";
 logger.Debug("init main");
 try
 {
