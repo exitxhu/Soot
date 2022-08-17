@@ -1,14 +1,8 @@
-﻿using Soot.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Soot.Domain.Base;
 
-namespace Soot.Application.Web
+namespace Soot.Application.Module.Web
 {
     public interface IWeb : ISoot
     {
-
     }
 }

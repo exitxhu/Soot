@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Soot.Domain
+﻿namespace Soot.Domain.Base
 {
-    public abstract class BaseVO
+    public abstract class BaseVo
     {
-        protected static bool EqualOperator(BaseVO left, BaseVO right)
+        protected static bool EqualOperator(BaseVo left, BaseVo? right)
         {
             if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
             {
@@ -17,32 +11,30 @@ namespace Soot.Domain
             return ReferenceEquals(left, null) || left.Equals(right);
         }
 
-        protected static bool NotEqualOperator(BaseVO left, BaseVO right)
+        protected static bool NotEqualOperator(BaseVo left, BaseVo? right)
         {
             return !(EqualOperator(left, right));
         }
 
         protected abstract IEnumerable<object> GetEqualityComponents();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null || obj.GetType() != GetType())
             {
                 return false;
             }
-
-            var other = (BaseVO)obj;
-
+            var other = (BaseVo)obj;
             return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
 
         public override int GetHashCode()
         {
             return GetEqualityComponents()
-                .Select(x => x != null ? x.GetHashCode() : 0)
+                .Select(x => x.GetHashCode())
                 .Aggregate((x, y) => x ^ y);
         }
-        public static bool operator ==(BaseVO left, BaseVO right) => EqualOperator(left, right);
-        public static bool operator !=(BaseVO left, BaseVO right) => !EqualOperator(left, right);
+        public static bool operator ==(BaseVo left, BaseVo? right) => EqualOperator(left, right);
+        public static bool operator !=(BaseVo left, BaseVo? right) => !EqualOperator(left, right);
     }
 }

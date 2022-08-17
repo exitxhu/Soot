@@ -1,72 +1,66 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Soot.Domain.Base;
+﻿using Soot.Domain.Base;
 using Soot.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Soot.Db.Ef.RepoImples
 {
     public abstract class Repository<T> : IRepository<T> where T : Root<T>, new()
     {
-        protected readonly SootContext _dbContext;
+        protected readonly SootContext DbContext;
 
-        public Repository(SootContext dbContext)
+        protected Repository(SootContext dbContext)
         {
-            this._dbContext = dbContext;
+            this.DbContext = dbContext;
         }
         public void Add(T entity)
         {
-            _dbContext.Add(entity);
+            DbContext.Add(entity);
         }
 
         public void AddRange(IEnumerable<T> entities)
         {
-            _dbContext.AddRange(entities);
+            DbContext.AddRange(entities);
         }
 
         public void Delete(T entity)
         {
-            _dbContext.Remove(entity);
+            DbContext.Remove(entity);
         }
 
         public void Delete(object id)
         {
             var entity = new T().SetTrueId(id);
-            _dbContext.Attach(entity);
-            _dbContext.Set<T>().Remove(entity);
+            DbContext.Attach(entity);
+            DbContext.Set<T>().Remove(entity);
 
         }
 
         public void DeleteRange(IEnumerable<T> entities)
         {
-            _dbContext.RemoveRange(entities);
+            DbContext.RemoveRange(entities);
         }
 
         public void DeleteRange(IEnumerable<object> ids)
         {
             var entity = ids.Select(n=> new T().SetTrueId(n));
-            _dbContext.AttachRange(entity);
-            _dbContext.Set<T>().RemoveRange(entity);
+            DbContext.AttachRange(entity);
+            DbContext.Set<T>().RemoveRange(entity);
         }
 
-        public abstract Task<T?> GetByIdAsync(object id);
+        public abstract Task<T?> GetByIdAsync(object? id);
 
         public async Task<int> SaveAsync()
         {
-            return await _dbContext.SaveChangesAsync();
+            return await DbContext.SaveChangesAsync();
         }
 
         public void Update(T entity)
         {
-            _dbContext.Update(entity);
+            DbContext.Update(entity);
         }
 
         public void UpdateRange(IEnumerable<T> entities)
         {
-            _dbContext.UpdateRange(entities);
+            DbContext.UpdateRange(entities);
         }
     }
 }

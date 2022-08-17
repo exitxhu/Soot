@@ -1,8 +1,10 @@
 ﻿using System.Text.RegularExpressions;
+using Soot.Domain.Base;
+using Soot.Domain.Exceptions;
 
-namespace Soot.Domain
+namespace Soot.Domain.ValueObjects
 {
-    public class MobileNumber : BaseVO
+    public class MobileNumber : BaseVo
     {
         public string Number { get; }
         public MobileNumber(string number)

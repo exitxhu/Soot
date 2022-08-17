@@ -1,4 +1,4 @@
-﻿using Soot.Domain;
+﻿using Soot.Domain.Entities;
 using Soot.Domain.Repositories;
 
 namespace Soot.Db.Ef.RepoImples
@@ -9,9 +9,9 @@ namespace Soot.Db.Ef.RepoImples
         {
         }
 
-        public override async Task<Inbox?> GetByIdAsync(object id)
+        public override async Task<Inbox?> GetByIdAsync(object? id)
         {
-            return await _dbContext.Inbox.FindAsync(id);
+            return await DbContext.Inbox.FindAsync(id);
         }
     }
 }

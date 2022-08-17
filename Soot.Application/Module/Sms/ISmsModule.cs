@@ -1,16 +1,12 @@
-﻿using Soot.Domain;
+﻿using Soot.Domain.Base;
+using Soot.Domain.Entities;
 using Soot.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Soot.Application.Sms
+namespace Soot.Application.Module.Sms
 {
     public interface ISmsModule : ISoot
     {
-        Task<ResultDto> SendSmsAsync(string body, Contact contact);
+        Task<ResultDto> SendSmsAsync(string body, Contact? contact);
     }
 
 }
