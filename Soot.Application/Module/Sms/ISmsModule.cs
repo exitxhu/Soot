@@ -6,7 +6,7 @@ namespace Soot.Application.Module.Sms
 {
     public interface ISmsModule : ISoot
     {
-        Task<ResultDto> SendSmsAsync(string body, Contact contact);
+        Task<ResultDto> SendSmsAsync(string body, Contact? contact);
     }
 
 }

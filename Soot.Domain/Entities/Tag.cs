@@ -9,9 +9,12 @@ namespace Soot.Domain.Entities
         {
 
         }
+        public Tag(string tagName)
+        {
+            TagName = tagName;
+        }
         public int TagId { get; set; }
         public string TagName { get; set; }
-
         public override Tag SetTrueId(object id)
         {
             TagId = (int)id;

@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Soot.Application.Command;
-using Soot.Domain;
 using Soot.Domain.Shared;
-using System.Text.Json.Serialization;
 
 namespace Soot.Rest.Controllers
 {
@@ -11,28 +8,28 @@ namespace Soot.Rest.Controllers
     [ApiController]
     public class NotificationController : ControllerBase
     {
-        private readonly ILogger<NotificationController> logger;
-        private readonly ISendForceEmail email;
-        private readonly ISendForceSms sms;
+        private readonly ILogger<NotificationController> _logger;
+        private readonly ISendForceEmail _email;
+        private readonly ISendForceSms _sms;
 
         public NotificationController(ILogger<NotificationController> logger,
             ISendForceEmail email,
             ISendForceSms sms)
         {
-            this.sms = sms;
-            this.logger = logger;
-            this.email = email;
+            this._sms = sms;
+            this._logger = logger;
+            this._email = email;
         }
         [HttpPost("[action]")]
-        public async Task SceduleNotification()
+        public async Task ScheduleNotification()
         {
 
         }
         [HttpPost("[action]")]
         public async Task<ResultDto> ForceEmail(SendMailModel model)
         {
-            email.Model = model;
-            var res = await email.ExecuteAsync();
+            _email.Model = model;
+            var res = await _email.ExecuteAsync();
             return res;
         }
         [HttpPost("[action]")]

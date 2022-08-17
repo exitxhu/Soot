@@ -4,6 +4,5 @@ namespace Soot.Application.Module.Web
 {
     public interface IWeb : ISoot
     {
-
     }
 }

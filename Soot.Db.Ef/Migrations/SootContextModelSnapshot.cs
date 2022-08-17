@@ -92,7 +92,6 @@ namespace Soot.Db.Ef.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ExternalSourceName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ExternalContactId");
@@ -181,11 +180,11 @@ namespace Soot.Db.Ef.Migrations
 
             modelBuilder.Entity("Soot.Domain.Entities.Notification", b =>
                 {
-                    b.Property<long>("NotificaionId")
+                    b.Property<long>("NotificationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("NotificaionId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("NotificationId"));
 
                     b.Property<string>("Body")
                         .IsRequired()
@@ -194,7 +193,7 @@ namespace Soot.Db.Ef.Migrations
                     b.Property<int?>("ContactId")
                         .HasColumnType("integer");
 
-                    b.HasKey("NotificaionId");
+                    b.HasKey("NotificationId");
 
                     b.HasIndex("ContactId");
 

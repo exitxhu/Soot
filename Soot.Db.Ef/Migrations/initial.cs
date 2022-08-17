@@ -12,7 +12,6 @@ namespace Soot.Db.Ef.Migrations
         {
             migrationBuilder.EnsureSchema(
                 name: "Soot");
-
             migrationBuilder.CreateTable(
                 name: "Contacts",
                 schema: "Soot",

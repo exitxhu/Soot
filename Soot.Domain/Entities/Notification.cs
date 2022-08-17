@@ -4,20 +4,20 @@ namespace Soot.Domain.Entities
 {
     public partial class Notification : Root<Notification>
     {
-        private readonly int DEFAULT_RETRY_COUNT = 3;
+        private const int DefaultRetryCount = 3;
 
-        public static Notification RawInctance() => new Notification();
+        public static Notification RawInstance() => new Notification();
 
         public void SendToContacts(IEnumerable<Contact> contacts, SendType sendType, DateTime? sendDate = null)
         {
             var acts = contacts.Select(n => new SendAction()
             {
                 Notification = this,
-                NotificationId = this.NotificaionId,
+                NotificationId = this.NotificationId,
                 Receiver = n,
                 ReceiverId = n.ContactId,
-                RetryCount = DEFAULT_RETRY_COUNT,
-                SendDate = sendDate.HasValue ? sendDate.Value : DateTime.UtcNow,
+                RetryCount = DefaultRetryCount,
+                SendDate = sendDate ?? DateTime.UtcNow,
                 SendType = sendType
             });
             SendActions = acts;
@@ -25,11 +25,11 @@ namespace Soot.Domain.Entities
 
         public override Notification SetTrueId(object id)
         {
-            NotificaionId = (int)id;
+            NotificationId = (int)id;
             return this;
         }
 
-        public Notification(string body, IEnumerable<SendAction> sendActions = null)
+        public Notification(string body, IEnumerable<SendAction>? sendActions = null)
         {
             Body = body;
             SendActions = sendActions;
@@ -39,14 +39,29 @@ namespace Soot.Domain.Entities
 
         }
 
-        public long NotificaionId { get; set; }
+        public long NotificationId { get; set; }
         public string Body { get; set; }
         public DateTime CreatedDate { get; } = DateTime.UtcNow;
-
-        public IEnumerable<SendAction> SendActions { get; set; }
-
+        public IEnumerable<SendAction>? SendActions { get; set; }
         public class SendAction
         {
+            public SendAction()
+            {
+                
+            }
+            public SendAction(int sendActionId, long notificationId, int receiverId, SendType sendType, DateTime sendDate, int retryCount, bool isDeliveryRequested, Notification notification, Contact receiver, IEnumerable<SendResult> sendResults)
+            {
+                SendActionId = sendActionId;
+                NotificationId = notificationId;
+                ReceiverId = receiverId;
+                SendType = sendType;
+                SendDate = sendDate;
+                RetryCount = retryCount;
+                IsDeliveryRequested = isDeliveryRequested;
+                Notification = notification;
+                Receiver = receiver;
+                SendResults = sendResults;
+            }
 
             public int SendActionId { get; set; }
             public long NotificationId { get; set; }
@@ -61,24 +76,36 @@ namespace Soot.Domain.Entities
         }
         public class SendResult
         {
+            public SendResult()
+            {
+                
+            }
+            public SendResult(int sendResultId, int sendActionId, string details, SendResultType result, bool isRetry, DateTime resultDate, SendAction sendAction)
+            {
+                SendResultId = sendResultId;
+                SendActionId = sendActionId;
+                Details = details;
+                Result = result;
+                IsRetry = isRetry;
+                ResultDate = resultDate;
+                SendAction = sendAction;
+            }
             public int SendResultId { get; set; }
             public int SendActionId { get; set; }
             public string Details { get; set; }
             public SendResultType Result { get; set; }
             public bool IsRetry { get; set; }
             public DateTime ResultDate { get; set; }
-
             public SendAction SendAction { get; set; }
 
         }
         [Flags]
         public enum SendType
         {
-            Sms = 1,
+            SMS = 1,
             EMAIL = 1 << 1,
             WEB = 1 << 2,
-
-            ALL = Sms | EMAIL | WEB
+            ALL = SMS | EMAIL | WEB
         }
         public enum SendResultType
         {

@@ -6,6 +6,6 @@ namespace Soot.Application.Module.Email
 {
     public interface IEmailModule : ISoot
     {
-        Task<ResultDto> SendEmailAsync(string Body, Contact Receiver);
+        Task<ResultDto> SendEmailAsync(string subject,string body, Contact receiver);
     }
 }

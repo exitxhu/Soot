@@ -4,6 +4,19 @@ namespace Soot.Domain.Entities
 {
     public partial class Inbox : Root<Inbox>
     {
+        public Inbox()
+        {
+
+        }
+        public Inbox(int inboxId, int contactId, string description, Contact contact, List<InboxItem> items)
+        {
+            InboxId = inboxId;
+            ContactId = contactId;
+            Description = description;
+            Contact = contact;
+            Items = items;
+        }
+
         public static Inbox RawInstance => new();
 
         public int InboxId { get; set; }
@@ -16,6 +29,21 @@ namespace Soot.Domain.Entities
 
         public class InboxItem
         {
+            public InboxItem()
+            {
+
+            }
+            public InboxItem(int inboxItemId, long notificationId, int inboxId, Inbox inbox, InboxItemStatus status, Notification notification, List<InboxItemActions> inboxItemActions)
+            {
+                InboxItemId = inboxItemId;
+                NotificationId = notificationId;
+                InboxId = inboxId;
+                Inbox = inbox;
+                Status = status;
+                Notification = notification;
+                InboxItemActions = inboxItemActions;
+            }
+
             public void ChangeItemStatus(InboxItemStatus newState, string details)
             {
                 if (newState == Status)
@@ -32,22 +60,33 @@ namespace Soot.Domain.Entities
             public int InboxItemId { get; set; }
             public long NotificationId { get; set; }
             public int InboxId { get; set; }
-
             public Inbox Inbox { get; set; }
             public InboxItemStatus Status { get; set; }
             public Notification Notification { get; set; }
-
             public List<InboxItemActions> InboxItemActions { get; set; }
 
         }
         public class InboxItemActions
         {
+            public InboxItemActions()
+            {
+
+            }
+            public InboxItemActions(int inboxItemActionId, int inboxItemId, InboxItemStatus actionType, DateTime actionDate, string details, InboxItem inboxItem)
+            {
+                InboxItemActionId = inboxItemActionId;
+                InboxItemId = inboxItemId;
+                ActionType = actionType;
+                ActionDate = actionDate;
+                Details = details;
+                InboxItem = inboxItem;
+            }
+
             public int InboxItemActionId { get; set; }
             public int InboxItemId { get; set; }
             public InboxItemStatus ActionType { get; set; }
             public DateTime ActionDate { get; set; }
             public string Details { get; set; }
-
             public InboxItem InboxItem { get; set; }
 
         }

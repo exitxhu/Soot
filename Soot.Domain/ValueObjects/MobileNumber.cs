@@ -4,7 +4,7 @@ using Soot.Domain.Exceptions;
 
 namespace Soot.Domain.ValueObjects
 {
-    public class MobileNumber : BaseVO
+    public class MobileNumber : BaseVo
     {
         public string Number { get; }
         public MobileNumber(string number)

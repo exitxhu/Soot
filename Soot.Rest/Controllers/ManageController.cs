@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Soot.Application.Command;
-using Soot.Domain;
 using Soot.Domain.Repositories;
-using System.Text.Json.Serialization;
 using static Soot.Domain.Entities.Contact;
 
 namespace Soot.Rest.Controllers
@@ -12,22 +9,21 @@ namespace Soot.Rest.Controllers
     [ApiController]
     public class ManageController : ControllerBase
     {
-        private readonly ILogger<ManageController> logger;
-        private readonly IUpsertContacts upsertContacts;
-        private readonly IContactQueryRepository contactQueryRepository;
-
+        private readonly ILogger<ManageController> _logger;
+        private readonly IUpsertContacts _upsertContacts;
+        private readonly IContactQueryRepository _contactQueryRepository;
         public ManageController(ILogger<ManageController> logger,
             IUpsertContacts upsertContacts, IContactQueryRepository contactQueryRepository)
         {
-            this.logger = logger;
-            this.upsertContacts = upsertContacts;
-            this.contactQueryRepository = contactQueryRepository;
+            this._logger = logger;
+            this._upsertContacts = upsertContacts;
+            this._contactQueryRepository = contactQueryRepository;
         }
         [HttpPost("[action]")]
         public async Task UpsertContacts(List<UpsertContactModel> model)
         {
-            upsertContacts.Model = model;
-            await upsertContacts.ExecuteAsync();
+            _upsertContacts.Model = model;
+            await _upsertContacts.ExecuteAsync();
         }
         [HttpDelete("[action]")]
         public async Task DeleteContacts(List<DeleteContactModel> model, [FromServices] IDeleteContacts deleteContacts)
@@ -38,12 +34,12 @@ namespace Soot.Rest.Controllers
         [HttpGet("[action]")]
         public async Task<List<ContactDto>> GetContacts()
         {
-           return await contactQueryRepository.GetAllAsync();
+           return await _contactQueryRepository.GetAllAsync();
         }
         [HttpGet("[action]/{sourceName}")]
         public async Task<List<ContactDto>> GetContacts(string sourceName)
         {
-            return await contactQueryRepository.GetAllAsync(sourceName);
+            return await _contactQueryRepository.GetAllAsync(sourceName);
         }
     }
 

@@ -4,13 +4,13 @@ using Soot.Domain.Exceptions;
 
 namespace Soot.Domain.ValueObjects
 {
-    public class EmailAddress : BaseVO
+    public class EmailAddress : BaseVo
     {
-        const string regex = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))\z";
+        private const string Regex = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))\z";
         public string Address { get; }
         public EmailAddress(string address)
         {
-            Address = Regex.IsMatch(address.Trim(), regex)
+            Address = System.Text.RegularExpressions.Regex.IsMatch(address.Trim(), Regex)
                 ? address
                 : throw new InvalidEmailAddressFormatException() ;
         }

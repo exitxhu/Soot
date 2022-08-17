@@ -9,15 +9,12 @@ namespace Soot.Application.Exceptions
         public InvalidModelException()
         {
         }
-
         public InvalidModelException(string? message) : base(message)
         {
         }
-
         public InvalidModelException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
-
         protected InvalidModelException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
@@ -29,7 +26,7 @@ namespace Soot.Application.Exceptions
         public static void ThrowIfInvalid(IEnumerable<ModelBase> model)
         {
             if (model is null || model.Any(n => !n.IsValid))
-                throw new InvalidModelException($"List of models {model?.GetType().Name} contains atleast one invalid model");
+                throw new InvalidModelException($"List of models {model?.GetType().Name} contains at least one invalid model");
         }
     }
 }

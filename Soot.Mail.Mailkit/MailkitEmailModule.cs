@@ -1,15 +1,8 @@
 ﻿using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using Soot.Domain;
 using Soot.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Soot.Application.Module.Email;
 using Soot.Domain.Entities;
 
@@ -17,32 +10,33 @@ namespace Soot.Mail.Mailkit
 {
     public class MailkitEmailModule : IEmailModule
     {
-        private readonly MailConfiguration smtpConfig;
-        private readonly ILogger<MailkitEmailModule> logger;
-        private readonly MailboxAddress From = new MailboxAddress("Soot", "notif@soot.ir");
+        private readonly MailConfiguration _smtpConfig;
+        private readonly ILogger<MailkitEmailModule> _logger;
+        private readonly MailboxAddress _from;
 
         public MailkitEmailModule(IOptions<MailConfiguration> smtpConfig, ILogger<MailkitEmailModule> logger)
         {
-            this.smtpConfig = smtpConfig.Value;
-            this.logger = logger;
+            this._smtpConfig = smtpConfig.Value;
+            this._logger = logger;
+            _from = new MailboxAddress(_smtpConfig.FromName, _smtpConfig.FromMail);
         }
         public async Task<ResultDto> SendAsync(Notification notification)
         {
             try
             {
                 using var client = new SmtpClient();
-                client.Connect(smtpConfig.Host, smtpConfig.Port, smtpConfig.SSL ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.None);
-
-                client.Authenticate(smtpConfig.Username, smtpConfig.Password);
-
+                await client.ConnectAsync(_smtpConfig.Host, _smtpConfig.Port, _smtpConfig.SecureSocket);
+                await client.AuthenticateAsync(_smtpConfig.Username, _smtpConfig.Password);
                 var msg = new MimeMessage();
-                BodyBuilder builder = new BodyBuilder();
-                builder.HtmlBody = notification.Body;
+                var builder = new BodyBuilder
+                {
+                    HtmlBody = notification.Body
+                };
                 msg.Body = builder.ToMessageBody();
                 //msg.To.Add(new MailboxAddress(notification.Receiver.Name, notification.Receiver.EmailAddress.ToString()));
-                msg.To.Add(From);
+                msg.To.Add(_from);
                 var res = await client.SendAsync(msg);
-                client.Disconnect(true);
+                await client.DisconnectAsync(true);
                 return new ResultDto
                 {
                     IsSuccessful = true,
@@ -51,7 +45,7 @@ namespace Soot.Mail.Mailkit
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "error has occured while sending mail");
+                _logger.LogError(ex, "error has occurred while sending mail");
                 return new ResultDto
                 {
                     IsSuccessful = false,
@@ -60,23 +54,25 @@ namespace Soot.Mail.Mailkit
             }
         }
 
-        public async Task<ResultDto> SendEmailAsync(string Body, Contact receiver)
+        public async Task<ResultDto> SendEmailAsync(string subject, string body, Contact receiver)
         {
             try
             {
+                if (receiver?.EmailAddress is null) throw new InvalidDataException("email not found");
                 using var client = new SmtpClient();
-                client.Connect(smtpConfig.Host, smtpConfig.Port, smtpConfig.SSL ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.None);
-
-                client.Authenticate(smtpConfig.Username, smtpConfig.Password);
-
+                await client.ConnectAsync(_smtpConfig.Host, _smtpConfig.Port, _smtpConfig.SecureSocket);
+                await client.AuthenticateAsync(_smtpConfig.Username, _smtpConfig.Password);
                 var msg = new MimeMessage();
-                BodyBuilder builder = new BodyBuilder();
-                builder.HtmlBody = Body;
+                var builder = new BodyBuilder
+                {
+                    HtmlBody = body
+                };
+                msg.Subject = subject;
                 msg.Body = builder.ToMessageBody();
-                msg.To.Add(new MailboxAddress("", receiver.EmailAddress.ToString()));
-                msg.From.Add(From);
+                msg.To.Add(new MailboxAddress("", receiver?.EmailAddress?.ToString()));
+                msg.From.Add(_from);
                 var res = await client.SendAsync(msg);
-                client.Disconnect(true);
+                await client.DisconnectAsync(true);
                 return new ResultDto
                 {
                     IsSuccessful = true,
@@ -85,7 +81,7 @@ namespace Soot.Mail.Mailkit
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "error has occured while sending mail");
+                _logger.LogError(ex, "error has occurred while sending mail");
                 return new ResultDto
                 {
                     IsSuccessful = false,
