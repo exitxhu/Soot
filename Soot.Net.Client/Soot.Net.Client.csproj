@@ -4,7 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.1.0</Version>
+		<Version>1.1.1</Version>
 		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
 	</PropertyGroup>
 
@@ -23,12 +23,18 @@
 			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
 			<IncludeAssets>Soot.Application.dll</IncludeAssets>
 		</ProjectReference>
-		<ProjectReference Include="..\Soot.Common\Soot.Common.csproj" />
+		<ProjectReference Include="..\Soot.Common\Soot.Common.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>Soot.Common.dll</IncludeAssets>
+		</ProjectReference>
 		<ProjectReference Include="..\Soot.Domain\Soot.Domain.csproj">
 			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
 			<IncludeAssets>Soot.Domain.dll</IncludeAssets>
 		</ProjectReference>
-		<ProjectReference Include="..\Soot.Models\Soot.Models.csproj" />
+		<ProjectReference Include="..\Soot.Models\Soot.Models.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>Soot.Models.dll</IncludeAssets>
+		</ProjectReference>
 	</ItemGroup>
 	<Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
 		<ItemGroup>

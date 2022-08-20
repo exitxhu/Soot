@@ -18,6 +18,8 @@
     <PackageReference Include="NLog.Extensions.Logging" Version="5.0.2" />
     <PackageReference Include="NLog.Web" Version="5.1.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.0" />
+    <PackageReference Include="QueDuler.Broker.Kafka" Version="1.0.4" />
+    <PackageReference Include="QueDuler.Core" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
@@ -25,6 +27,7 @@
     <ProjectReference Include="..\Soot.Common\Soot.Common.csproj" />
     <ProjectReference Include="..\Soot.Db.Ef\Soot.Db.Ef.csproj" />
     <ProjectReference Include="..\Soot.Mail.Mailkit\Soot.Mail.Mailkit.csproj" />
+    <ProjectReference Include="..\Soot.Models\Soot.Models.csproj" />
     <ProjectReference Include="..\Soot.Sms.Kavenegar\Soot.Sms.Kavenegar.csproj" />
   </ItemGroup>
 
