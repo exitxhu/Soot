@@ -19,7 +19,7 @@ namespace Soot.Common
             smtp.Get<MailConfiguration>();
             services.AddScoped<IEmailModule, MailkitEmailModule>();
             services.AddScoped<ISmsModule, KavenegarSmsModule>();
-            services.AddSootDbEf(a => a.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+            services.AddSootDbEf(a => a.UseNpgsql(configuration.GetConnectionString("Pg_DataConnection")));
             services.AddSootApplication();
             services.AddSootSmsKavenegar(configuration.GetSection("KavenegarConfig"));
             return services;
