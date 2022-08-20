@@ -1,23 +1,39 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Soot.Common.Models;
 
 namespace Soot.Net.Client
 {
     public static class SootDiExtensions
     {
-        public static IServiceCollection AddSoot(this IServiceCollection services, IConfigurationSection section)
+        public static IServiceCollection AddSootRestClient(this IServiceCollection services, IConfigurationSection section)
         {
-            var config = section.Get<SootConfig>();
-            services.Configure<SootConfig>(section);
-            services.AddHttpClient<SootClient>(a => a.BaseAddress = config.HostUri);
+            var config = section.Get<SootRestConfig>();
+            services.Configure<SootRestConfig>(section);
+            services.AddHttpClient<SootRestClient>(a => a.BaseAddress = config.HostUri);
             return services;
         }
-        public static IServiceCollection AddSoot(this IServiceCollection services, Action<SootConfig> sootConfig)
+        public static IServiceCollection AddSootRestClient(this IServiceCollection services, Action<SootRestConfig> sootConfig)
         {
-            var config = new SootConfig();
+            var config = new SootRestConfig();
             sootConfig(config);
-            services.Configure<SootConfig>(sootConfig);
-            services.AddHttpClient<SootClient>(a => a.BaseAddress = config.HostUri);
+            services.Configure(sootConfig);
+            services.AddHttpClient<SootRestClient>(a => a.BaseAddress = config.HostUri);
+            return services;
+        }
+        public static IServiceCollection AddSootKafkaClient(this IServiceCollection services, IConfigurationSection section)
+        {
+            var config = section.Get<SootRestConfig>();
+            services.Configure<SootRestConfig>(section);
+            services.AddHttpClient<SootRestClient>(a => a.BaseAddress = config.HostUri);
+            return services;
+        }
+        public static IServiceCollection AddSootKafkaClient(this IServiceCollection services, Action<SootKafkaConfig> sootConfig)
+        {
+            var config = new SootKafkaConfig();
+            sootConfig(config);
+            services.Configure(sootConfig);
+            services.AddHttpClient<SootKafkaClient>();
             return services;
         }
     }

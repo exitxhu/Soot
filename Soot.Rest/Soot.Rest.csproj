@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="linqPlusPlus" Version="1.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
@@ -21,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Soot.Common\Soot.Common.csproj" />
     <ProjectReference Include="..\Soot.Db.Ef\Soot.Db.Ef.csproj" />
     <ProjectReference Include="..\Soot.Mail.Mailkit\Soot.Mail.Mailkit.csproj" />
     <ProjectReference Include="..\Soot.Sms.Kavenegar\Soot.Sms.Kavenegar.csproj" />

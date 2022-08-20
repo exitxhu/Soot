@@ -4,31 +4,35 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.0.2</Version>
+		<Version>1.1.0</Version>
 		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Confluent.Kafka" Version="1.9.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="QueDuler.Core" Version="1.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Soot.Application\Soot.Application.csproj" >
+		<ProjectReference Include="..\Soot.Application\Soot.Application.csproj">
 			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
 			<IncludeAssets>Soot.Application.dll</IncludeAssets>
 		</ProjectReference>
-		<ProjectReference Include="..\Soot.Domain\Soot.Domain.csproj" >
+		<ProjectReference Include="..\Soot.Common\Soot.Common.csproj" />
+		<ProjectReference Include="..\Soot.Domain\Soot.Domain.csproj">
 			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
 			<IncludeAssets>Soot.Domain.dll</IncludeAssets>
 		</ProjectReference>
+		<ProjectReference Include="..\Soot.Models\Soot.Models.csproj" />
 	</ItemGroup>
 	<Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
 		<ItemGroup>
-			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
 		</ItemGroup>
 	</Target>
 </Project>
