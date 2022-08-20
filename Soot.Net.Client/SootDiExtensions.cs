@@ -25,7 +25,7 @@ namespace Soot.Net.Client
         {
             var config = section.Get<SootRestConfig>();
             services.Configure<SootRestConfig>(section);
-            services.AddHttpClient<SootRestClient>(a => a.BaseAddress = config.HostUri);
+            services.AddTransient<SootKafkaClient>();
             return services;
         }
         public static IServiceCollection AddSootKafkaClient(this IServiceCollection services, Action<SootKafkaConfig> sootConfig)
@@ -33,7 +33,7 @@ namespace Soot.Net.Client
             var config = new SootKafkaConfig();
             sootConfig(config);
             services.Configure(sootConfig);
-            services.AddHttpClient<SootKafkaClient>();
+            services.AddTransient<SootKafkaClient>();
             return services;
         }
     }

@@ -2,7 +2,7 @@
 using Soot.Application.Command;
 using Soot.Models;
 
-namespace Soot.Kafka.Events
+namespace Soot.Rest.Events
 {
     public class ForceEmail : IDispatchableJob
     {
