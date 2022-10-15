@@ -39,6 +39,13 @@ namespace Soot.Rest.Controllers
             var res = await sms.ExecuteAsync();
             return res;
         }
+        [HttpPost("[action]")]
+        public async Task<ResultDto> LookupSms(SendLookupSmsModel model, [FromServices] ISendLookupSms sms)
+        {
+            sms.Model = model;
+            var res = await sms.ExecuteAsync();
+            return res;
+        }
     }
 
 }

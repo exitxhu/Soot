@@ -24,6 +24,14 @@ public static class ContactServiceExtensions
                model.CheckByMobileNumber(repo) ?? 
                await model.CreateContact(repo);
     }
+    public static async Task<Contact?> CheckThenCreateAsync(this SendLookupSmsModel model, IContactRepository repo)
+    {
+        return model.CheckByContactId(repo) ??
+               model.CheckByExternalId(repo) ??
+               model.CheckByMobileNumber(repo) ??
+               await model.CreateContact(repo);
+    }
+
     public static Contact Merge(this Contact contact, UpsertContactModel upd)
     {
         contact.WebSocket = upd.WebSocket;
@@ -84,6 +92,24 @@ public static class ContactServiceExtensions
         return c;
     }
     private static async Task<Contact?> CreateContact(this SendSmsModel model, IContactRepository repo)
+    {
+        var c = Contact.RawInstance;
+        if (model.MobileNumber.HasContent())
+            c.MobileNumber = new MobileNumber(model.MobileNumber);
+        if (model.ExternalId.HasContent())
+        {
+            c.ExternalMappings ??= new List<Contact.ExternalContactMapping>();
+            c.ExternalMappings.Add(new Contact.ExternalContactMapping
+            {
+                ExternalId = model?.ExternalId,
+                ExternalSourceName = model?.SourceName ?? DefaultSourceName
+            });
+        }
+        repo.Add(c);
+        await repo.SaveAsync();
+        return c;
+    }
+    private static async Task<Contact?> CreateContact(this SendLookupSmsModel model, IContactRepository repo)
     {
         var c = Contact.RawInstance;
         if (model.MobileNumber.HasContent())

@@ -10,5 +10,6 @@ namespace Soot.Models
     {
         public static string ForceEmail => nameof(ForceEmail);
         public static string ForceSms => nameof(ForceSms);
+        public static string LookupSms => nameof(LookupSms);
     }
 }
